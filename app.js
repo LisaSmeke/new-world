@@ -55,10 +55,22 @@ WHERE countrylanguage.language = 'Russian';`,
   },
 );
 
-/*List all the continents with the number of languages spoken in each continent*/
+// 4. List all the continents with the number of languages spoken in each continent
+
+con.execute(
+  `SELECT DISTINCT Continent
+FROM new_world.country
+INNER JOIN countrylanguage
+ON country.Code = countrylanguage.CountryCode`,
+  (err, res) => {
+    if (err) throw err;
+    console.log('Data received from new_world db');
+    console.log(res);
+  },
+);
+
 // 1st, list all continents:
 //SELECT continent from country
 // then, for each continent, get country codes
 // then, form country codes, get language
 // check how many different language values per continent
-//
