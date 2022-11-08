@@ -69,8 +69,6 @@ ON country.Code = countrylanguage.CountryCode`,
   },
 );
 
-// 1st, list all continents:
-//SELECT continent from country
 // then, for each continent, get country codes
 // then, form country codes, get language
 // check how many different language values per continent
