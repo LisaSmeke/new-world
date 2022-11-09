@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 const port = 8384;
-
-//get the client
 const mysql = require('mysql2');
 
 //connect to database
@@ -18,7 +16,6 @@ con.connect((err) => {
 });
 
 // 1. What is the capital of country X ?
-// Accept X from user
 con.execute(`SELECT @countryX := 'Poland';`);
 
 con.execute(
@@ -35,8 +32,7 @@ WHERE country.Name = @countryX;`,
 );
 
 // 2. List all the languages spoken in the region Y
-// Accept Y from user
-let region = con.execute(`SELECT @regionY := 'Middle East';`);
+con.execute(`SELECT @regionY := 'Middle East';`);
 
 con.execute(
   `SELECT DISTINCT Language
@@ -52,8 +48,6 @@ WHERE country.region = @regionY;`,
 );
 
 // 3. Find the number of cities in which language Z is spoken
-// Accept Z from user
-
 con.execute(`SELECT @languageZ := 'Norwegian';`);
 
 con.execute(
@@ -71,13 +65,14 @@ WHERE countrylanguage.language = @languageZ;`,
 
 // 4. List all the continents with the number of languages spoken in each continent
 con.execute(
-  `SELECT DISTINCT Continent
+  `SELECT Continent, COUNT(countrylanguage.language) AS Languages
 FROM new_world.country
 INNER JOIN countrylanguage
-ON country.Code = countrylanguage.CountryCode`,
+ON country.Code = countrylanguage.CountryCode
+GROUP BY Continent;`,
   (err, res) => {
     if (err) throw err;
-    console.log('Data received from new_world db');
+    console.log('Number of languages spoken per continent:');
     console.log(res);
   },
 );
