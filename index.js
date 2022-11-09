@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 8384;
+const port = 8383;
 const mysql = require('mysql2');
 
 //connect to database
@@ -14,6 +14,8 @@ con.connect((err) => {
   if (err) throw err;
   console.log('Connection established');
 });
+
+app.listen(port, () => console.log(`Server started on port: ${port}`));
 
 // 1. What is the capital of country X ?
 con.execute(`SELECT @countryX := 'Poland';`);
@@ -76,5 +78,3 @@ GROUP BY Continent;`,
     console.log(res);
   },
 );
-
-app.listen(port, () => console.log(`Server started on port: ${port}`));
