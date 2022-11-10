@@ -1,0 +1,51 @@
+1. What is the capital of country X? 
+    PREPARE capital FROM
+    'SELECT
+    country.Name AS country,
+    city.name AS capital
+    FROM new_world.country
+    WHERE country.Name = ?';
+
+    SET @countryX = 'Mexico';
+    EXECUTE capital USING @countryX;
+    SET @countryX = 'Sweden';
+    EXECUTE stmt1 USING @countryX;
+
+    DEALLOCATE PREPARE capital
+
+
+2. List all the languages spoken in the region Y
+    PREPARE regionLanguages FROM
+    'SELECT DISTINCT Language
+    FROM new_world.country
+    INNER JOIN countrylanguage
+    ON country.code = countrylanguage.CountryCode
+    WHERE country.region = ?';
+    
+    SET @regionY = 'Caribbean';
+    EXECUTE languages USING @regionY;
+    
+    DEALLOCATE PREPARE regionLanguages
+    
+
+// 3. Find the number of cities in which language Z is spoken
+    PREPARE citiesLanguage FROM
+    'SELECT COUNT(countrylanguage.CountryCode) AS Cities
+    FROM new_world.city
+    INNER JOIN countrylanguage
+    ON city.CountryCode = countrylanguage.CountryCode
+    WHERE countrylanguage.language = ?';
+    
+    SET @languageZ = 'Norwegian';
+    EXECUTE languages USING @languageZ;
+    
+    DEALLOCATE PREPARE citiesLanguage
+
+
+// 4. List all the continents with the number of languages spoken in each continent
+    PREPARE continents FROM
+    'SELECT DISTINCT Continent, COUNT(countrylanguage.language) AS Languages
+    FROM new_world.country
+    INNER JOIN countrylanguage
+    ON country.Code = countrylanguage.CountryCode
+    GROUP BY Continent';
