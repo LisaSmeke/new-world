@@ -9,7 +9,7 @@
     SET @countryX = 'Mexico';
     EXECUTE capital USING @countryX;
     SET @countryX = 'Sweden';
-    EXECUTE stmt1 USING @countryX;
+    EXECUTE capital USING @countryX;
 
     DEALLOCATE PREPARE capital
 
