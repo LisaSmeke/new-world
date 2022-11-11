@@ -4,6 +4,8 @@
     country.Name AS country,
     city.name AS capital
     FROM country
+    INNER JOIN city
+    ON country.Capital = city.ID
     WHERE country.Name = ?';
 
     SET @countryX = 'Mexico';
